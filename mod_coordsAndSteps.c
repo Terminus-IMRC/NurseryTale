@@ -1,10 +1,7 @@
 #include "def.h"
 
-struct coordsAndSteps* mod_coordsAndSteps(int ident)
+void mod_coordsAndSteps(struct coordsAndSteps *ret, int ident)
 {
-	struct coordsAndSteps *ret;
-	ret=(struct coordsAndSteps*)malloc(sizeof(struct coordsAndSteps));
-
 	if(ident>=0 && ident<X){
 		ret->x_init=ident;
 		ret->y_init=0;
@@ -34,5 +31,5 @@ struct coordsAndSteps* mod_coordsAndSteps(int ident)
 				/* Never returns */
 		}
 
-	return ret;
+	return;
 }

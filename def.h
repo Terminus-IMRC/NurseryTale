@@ -9,6 +9,6 @@
 		int x_step, y_step;
 	};
 
-	struct coordsAndSteps* mod_coordsAndSteps(int ident);
+	void mod_coordsAndSteps(struct coordsAndSteps *ret, int ident);
 	void will_and_die(const char *str, const int exitno);
 #endif
