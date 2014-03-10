@@ -16,8 +16,13 @@
 	typedef int tale_element_t;
 	typedef tale_element_t* tale_t;
 
+	/* in mod_coordsAndSteps.c */
 	void mod_coordsAndSteps(struct coordsAndSteps *ret, int ident);
+
+	/* in will_and_die.c */
 	void will_and_die(const char *str, const int exitno);
+
+	/* in tale.c */
 	void tale_init();
 	void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf);
 	tale_t tale_alloc();
