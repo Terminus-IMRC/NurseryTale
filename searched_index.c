@@ -85,6 +85,6 @@ _Bool searched_index_if_index_searched(uint64_t no)
 
 void searched_index_set_index_searched(uint64_t no)
 {
-	searched_index[no/8]|=(int8_t)1 << no%8;
+	searched_index[no/8]|=(uint8_t)1 << no%8;
 	return;
 }
