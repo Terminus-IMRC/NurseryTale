@@ -7,7 +7,7 @@
 #include <errno.h>
 #include <string.h>
 
-#define SEARCH_INDEX_FILE_NAME "index.db"
+#define SEARCHED_INDEX_FILE_NAME "index.db"
 
 static int fd;
 static uint8_t *searched_index;
@@ -21,13 +21,13 @@ void searched_index_init()
 	size=2;
 	for(i=0; i<X*X; i++)
 		size*=2;
-	/* search indexes are stored in bits */
+	/* searched indexes are stored in bits */
 	size/=8;
 	/*TODO:check if size<SIZE_MAX*/
 
-	fd=open(SEARCH_INDEX_FILE_NAME, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+	fd=open(SEARCHED_INDEX_FILE_NAME, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	if(fd==-1){
-		sprintf(errmsg, "search_index_init: open: %s", strerror(errno));
+		sprintf(errmsg, "searched_index_init: open: %s", strerror(errno));
 		will_and_die(errmsg, 1);
 	}
 
@@ -35,7 +35,7 @@ void searched_index_init()
 
 	searched_index=mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 	if(searched_index==MAP_FAILED){
-		sprintf(errmsg, "search_index_init: mmap: %s", strerror(errno));
+		sprintf(errmsg, "searched_index_init: mmap: %s", strerror(errno));
 		will_and_die(errmsg, 1);
 	}
 
@@ -47,17 +47,17 @@ void searched_index_finalize()
 	char errmsg[0xffff];
 
 	if(munmap(searched_index, size)==-1){
-		sprintf(errmsg, "search_index_finalize: munmap: %s", strerror(errno));
+		sprintf(errmsg, "searched_index_finalize: munmap: %s", strerror(errno));
 		will_and_die(errmsg, 1);
 	}
 
 	if(close(fd)==-1){
-		sprintf(errmsg, "search_index_finalize: close: %s", strerror(errno));
+		sprintf(errmsg, "searched_index_finalize: close: %s", strerror(errno));
 		will_and_die(errmsg, 1);
 	}
 
-	if(unlink(SEARCH_INDEX_FILE_NAME)==-1){
-		sprintf(errmsg, "search_index_finalize: unlink: %s", strerror(errno));
+	if(unlink(SEARCHED_INDEX_FILE_NAME)==-1){
+		sprintf(errmsg, "searched_index_finalize: unlink: %s", strerror(errno));
 		will_and_die(errmsg, 1);
 	}
 
