@@ -50,8 +50,6 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 					tell_me_a_nursery_tale(0, max_level, NT_FROM_ME);
 					break;
 				case NT_FROM_ME:
-					/* not implemented yet */
-					/*tale_optimize(tale);*/
 					no=tale_to_searched_index_no(tale);
 					if(!searched_index_if_index_searched(no))
 						tale_output(tale);
