@@ -19,6 +19,7 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 	int i;
 	int add;
 	tale_t tale_def;
+	uint64_t no;
 
 	/*printf("nt(%d):entering nt:%s\n", level, nf==NT_FROM_MAIN?"MAIN":"ME");*/
 
@@ -51,7 +52,10 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 				case NT_FROM_ME:
 					/* not implemented yet */
 					/*tale_optimize(tale);*/
-					tale_output(tale);
+					no=tale_to_searched_index_no(tale);
+					if(!searched_index_if_index_searched(no))
+						tale_output(tale);
+					searched_index_set_index_searched(no);
 					break;
 				default:
 					will_and_die("someone changed nf value", 1);

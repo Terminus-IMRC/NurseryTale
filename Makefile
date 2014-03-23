@@ -1,10 +1,10 @@
 PROG=NurseryTale
-SRCS=main.c mod_coordsAndSteps.c tale.c will_and_die.c
-SRCS_XDEP=main.c mod_coordsAndSteps.c tale.c
+SRCS=main.c mod_coordsAndSteps.c tale.c searched_index.c fd_utils.c will_and_die.c
+SRCS_XDEP=main.c mod_coordsAndSteps.c tale.c searched_index.c
 OBJS=$(SRCS:%.c=%.c.o)
 OBJS_XDEP=$(SRCS_XDEP:%.c=%.c.o)
 ALLDEP=$(MAKEFILE_LIST)
-TOCLEAN=
+TOCLEAN=index.db
 
 all: $(PROG)
 
