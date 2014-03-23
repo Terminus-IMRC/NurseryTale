@@ -18,7 +18,7 @@ void searched_index_init()
 	uint64_t i;
 	char errmsg[0xffff];
 
-	size=2;
+	size=1;
 	for(i=0; i<X*X; i++)
 		size*=2;
 	/* searched indexes are stored in bits */
@@ -70,9 +70,9 @@ uint64_t tale_to_searched_index_no(tale_t tale)
 	uint64_t no=0;
 
 	for(i=0; i<X*X; i++){
+		no<<=1;
 		if(tale[i])
 			no|=(uint64_t)1;
-		no<<=1;
 	}
 
 	return no;
