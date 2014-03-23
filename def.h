@@ -25,6 +25,7 @@
 
 	/* in tale.c */
 	void tale_init();
+	void tale_finalize();
 	void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf);
 	tale_t tale_alloc();
 	void tale_destroy(tale_t t);

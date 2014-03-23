@@ -14,6 +14,13 @@ void tale_init()
 	return;
 }
 
+void tale_finalize()
+{
+	tale_destroy(tale);
+
+	return;
+}
+
 void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 {
 	int i;
