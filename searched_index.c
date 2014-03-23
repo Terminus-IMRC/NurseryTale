@@ -56,11 +56,6 @@ void searched_index_finalize()
 		will_and_die(errmsg, 1);
 	}
 
-	if(unlink(SEARCHED_INDEX_FILE_NAME)==-1){
-		sprintf(errmsg, "searched_index_finalize: unlink: %s", strerror(errno));
-		will_and_die(errmsg, 1);
-	}
-
 	return;
 }
 
