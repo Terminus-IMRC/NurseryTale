@@ -21,6 +21,8 @@ void searched_index_init()
 	size=2;
 	for(i=0; i<X*X; i++)
 		size*=2;
+	/* search indexes are stored in bits */
+	size/=8;
 	/*TODO:check if size<SIZE_MAX*/
 
 	fd=open(SEARCH_INDEX_FILE_NAME, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
