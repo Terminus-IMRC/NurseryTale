@@ -3,8 +3,8 @@
 #include <errno.h>
 #include <string.h>
 
-tale_t tale;
-FILE *tale_output_fp;
+static tale_t tale;
+static FILE *tale_output_fp;
 
 void tale_init()
 {
