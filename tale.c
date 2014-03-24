@@ -100,20 +100,14 @@ void tale_destroy(tale_t t)
 
 void tale_cp(tale_t dst, tale_t src)
 {
-	int i;
-
-	for(i=0; i<X*X; i++)
-		dst[i]=src[i];
+	memcpy(dst, src, (X*X)*sizeof(tale_element_t));
 
 	return;
 }
 
 void tale_clean(tale_t t)
 {
-	int i;
-
-	for(i=0; i<X*X; i++)
-		t[i]=0;
+	memset(t, (int8_t)0, (X*X)*sizeof(tale_element_t));
 
 	return;
 }
