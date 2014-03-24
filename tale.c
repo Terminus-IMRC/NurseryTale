@@ -1,6 +1,7 @@
 #include "def.h"
-#include <assert.h>
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
 
 tale_t tale;
 FILE *tale_output_fp;
@@ -79,9 +80,13 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 tale_t tale_alloc()
 {
 	tale_t t;
+	char errmsg[0xffff];
 
 	t=(tale_t)malloc((X*X)*sizeof(tale_element_t));
-	assert(t);
+	if(!t){
+		sprintf(errmsg, "tale_alloc: malloc: %s", strerror(errno));
+		will_and_die(errmsg, 1);
+	}
 
 	return t;
 }
