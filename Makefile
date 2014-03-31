@@ -12,10 +12,12 @@ TOCLEAN=index.db
 
 all: $(PROG)
 
-ifeq '$(shell for f in $(NONEED_DEP_TARGETS); do if echo $(strip $(MAKECMDGOALS)) | tr -s " " "\n" | grep -q "^$$f$$"; then echo $$f; break; fi; done)' ''
+# check whether NONEED_DEP_TARGETS are in MAKECMDGOALS
+ifeq '$(filter-out $(NONEED_DEP_TARGETS), $(MAKECMDGOALS))' '$(MAKECMDGOALS)'
  sinclude $(DEPS)
 else
- ifneq '$(shell echo $(strip $(MAKECMDGOALS)) | tr -s " " "\n" | wc -l)' '1'
+ # if so and there are more than 1 targets in MAKECMDGOALS, it would cause dependency files missing so say error
+ ifneq '$(words $(MAKECMDGOALS))' '1'
   $(error Specify only one target if you want to make target that needs no dependency file)
  endif
 endif
