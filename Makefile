@@ -1,6 +1,7 @@
 PROG=NurseryTale
 SRCS=main.c mod_coordsAndSteps.c tale.c searched_index.c fd_utils.c will_and_die.c
 SRCS_XDEP=main.c mod_coordsAndSteps.c tale.c searched_index.c
+TARGETS=all $(PROG) %.o %.d run line clean
 NONEED_DEP_TARGETS+=clean line
 
 OBJS=$(SRCS:%.c=%.c.o)
@@ -11,13 +12,18 @@ TOCLEAN=index.db
 
 all: $(PROG)
 
-# check whether NONEED_DEP_TARGETS are in MAKECMDGOALS
-ifeq '$(filter-out $(NONEED_DEP_TARGETS), $(MAKECMDGOALS))' '$(MAKECMDGOALS)'
- sinclude $(DEPS)
+EXTRA_TARGETS=$(filter-out $(TARGETS), $(MAKECMDGOALS))
+ifneq '$(EXTRA_TARGETS)' ''
+ $(error No rule to make target `$(word 1, $(EXTRA_TARGETS))')
 else
- # if so and there are more than 1 targets in MAKECMDGOALS, it would cause dependency files missing so say error
- ifneq '$(words $(MAKECMDGOALS))' '1'
-  $(error Specify only one target if you want to make target that needs no dependency file)
+ # check whether NONEED_DEP_TARGETS are in MAKECMDGOALS
+ ifeq '$(filter-out $(NONEED_DEP_TARGETS), $(MAKECMDGOALS))' '$(MAKECMDGOALS)'
+  sinclude $(DEPS)
+ else
+  # if so and there are more than 1 targets in MAKECMDGOALS, it would cause dependency files missing so say error
+  ifneq '$(words $(MAKECMDGOALS))' '1'
+   $(error Specify only one target if you want to make target that needs no dependency file)
+  endif
  endif
 endif
 
