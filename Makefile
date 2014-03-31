@@ -1,6 +1,5 @@
 PROG=NurseryTale
 SRCS=main.c mod_coordsAndSteps.c tale.c searched_index.c fd_utils.c will_and_die.c
-HDRS=def.h
 SRCS_XDEP=main.c mod_coordsAndSteps.c tale.c searched_index.c
 NONEED_DEP_TARGETS+=clean line
 
