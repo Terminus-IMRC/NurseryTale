@@ -1,12 +1,26 @@
 PROG=NurseryTale
 SRCS=main.c mod_coordsAndSteps.c tale.c searched_index.c fd_utils.c will_and_die.c
+HDRS=def.h
 SRCS_XDEP=main.c mod_coordsAndSteps.c tale.c searched_index.c
+NONEED_DEP_TARGETS+=clean line
+
 OBJS=$(SRCS:%.c=%.c.o)
 OBJS_XDEP=$(SRCS_XDEP:%.c=%.c.o)
-ALLDEP=$(MAKEFILE_LIST)
+DEPS=$(SRCS:%.c=%.c.d)
+ALLDEP=$(MAKEFILE_LIST_SANS_DEPS)
 TOCLEAN=index.db
 
 all: $(PROG)
+
+ifeq '$(shell for f in $(NONEED_DEP_TARGETS); do if echo $(strip $(MAKECMDGOALS)) | tr -s " " "\n" | grep -q "^$$f$$"; then echo $$f; break; fi; done)' ''
+ sinclude $(DEPS)
+else
+ ifneq '$(shell echo $(strip $(MAKECMDGOALS)) | tr -s " " "\n" | wc -l)' '1'
+  $(error Specify only one target if you want to make target that needs no dependency file)
+ endif
+endif
+
+MAKEFILE_LIST_SANS_DEPS=$(filter-out %.d, $(MAKEFILE_LIST))
 
 CC:=cc
 HEADERFLAGS:=-I.
@@ -16,6 +30,7 @@ RM:=rm -r -f
 WC:=wc -c -l
 
 COMPILE.c=$(CC) $(HEADERFLAGS) $(OPTFLAGS) $(WARNFLAGS) $(DEPFLAGS) $(ADDCFLAGS) $(CFLAGS) -c
+COMPILE.dep=$(CC) $(HEADERFLAGS) $(OPTFLAGS) $(WARNFLAGS) $(DEPFLAGS) $(ADDCFLAGS) $(CFLAGS) -MM -MP -MT $<.o -MF $@
 LINK.o=$(CC) $(OPTFLAGS) $(WARNFLAGS) $(LINKFLAGS) $(LDFLAGS)
 
 X?=3
@@ -33,15 +48,19 @@ $(PROG): $(OBJS) $(ALLDEP)
 %.c.o: %.c $(ALLDEP)
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
+%.c.d: %.c $(ALLDEP)
+	$(COMPILE.dep) $<
+
 run: $(PROG)
 	./$(PROG)
 
 .PHONY: line
 line:
-	$(WC) $(SRCS) $(MAKEFILE_LIST)
+	$(WC) $(SRCS) $(MAKEFILE_LIST_SANS_DEPS)
 
 .PHONY: clean
 clean:
 	$(RM) $(PROG) $(OBJS)
+	$(RM) $(DEPS)
 	$(RM) $(XNUM)
 	$(RM) $(TOCLEAN)
