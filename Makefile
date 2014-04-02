@@ -44,6 +44,7 @@ LINK.o=$(CC) $(OPTFLAGS) $(WARNFLAGS) $(LINKFLAGS) $(LDFLAGS)
 define set-dep-val
  $1:=$2
  $(strip $1)NUM:=.$(strip $1)
+ NUMS+=.$(strip $1)
  $$(shell ([ -f $$($(strip $1)NUM) ] && [ `cat $$($(strip $1)NUM)` -eq "$$($(strip $1))" ]) || echo $$($(strip $1)) >$$($(strip $1)NUM))
  $3: $$($(strip $1)NUM)
  $3: DEPFLAGS+=-D$(strip $1)=$$($(strip $1))
@@ -71,5 +72,5 @@ line:
 clean:
 	$(RM) $(PROG) $(OBJS)
 	$(RM) $(DEPS)
-	$(RM) $(XNUM)
+	$(RM) $(NUMS)
 	$(RM) $(TOCLEAN)
