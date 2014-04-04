@@ -14,6 +14,10 @@
 		NT_FROM_MAIN, NT_FROM_ME
 	};
 
+	enum tale_sign{
+		TALE_SIGN_POSITIVE, TALE_SIGN_NEGATIVE
+	};
+
 	typedef int tale_element_t;
 	typedef tale_element_t* tale_t;
 
@@ -31,7 +35,7 @@
 	void tale_destroy(tale_t t);
 	void tale_cp(tale_t dst, tale_t src);
 	void tale_clean(tale_t t);
-	void tale_adopt_line_by_identifier(tale_t t, int ident, int add);
+	void tale_adopt_line_by_identifier(tale_t t, int ident, enum tale_sign s);
 	void tale_set_output_fp(FILE *fp);
 	void tale_output(tale_t t);
 
@@ -44,4 +48,8 @@
 
 	/* in fd_utils.c */
 	void fill_fd_with_zero(int fd, uint64_t size);
+
+	/* in ident_line.c */
+	void ident_line_init();
+	void ident_line_finalize();
 #endif

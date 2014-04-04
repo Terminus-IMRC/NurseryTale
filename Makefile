@@ -1,6 +1,6 @@
 PROG=NurseryTale
-SRCS=main.c mod_coordsAndSteps.c tale.c searched_index.c fd_utils.c will_and_die.c
-SRCS_XDEP=main.c mod_coordsAndSteps.c tale.c searched_index.c
+SRCS=main.c mod_coordsAndSteps.c tale.c searched_index.c fd_utils.c will_and_die.c ident_line.c
+SRCS_XDEP=main.c mod_coordsAndSteps.c tale.c searched_index.c ident_line.c
 TARGETS=all $(PROG) %.o %.d run line clean
 NONEED_DEP_TARGETS+=clean line
 

@@ -3,8 +3,12 @@
 #include <errno.h>
 #include <string.h>
 
+
 static tale_t tale;
 static FILE *tale_output_fp;
+
+/* in ident_line.c */
+extern tale_t ident_line[X*2+2];
 
 void tale_init()
 {
@@ -25,7 +29,7 @@ void tale_finalize()
 void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 {
 	int i;
-	int add;
+	enum tale_sign s;
 	tale_t tale_def;
 	uint64_t no;
 
@@ -36,10 +40,10 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 
 	switch(nf){
 		case NT_FROM_MAIN:
-			add=1;
+			s=TALE_SIGN_POSITIVE;
 			break;
 		case NT_FROM_ME:
-			add=-1;
+			s=TALE_SIGN_NEGATIVE;
 			break;
 		default:
 			will_and_die("invalid nf value", 1);
@@ -48,7 +52,7 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 
 	for(i=0; i<X*2+2; i++){
 		/*printf("nt(%d):adopting i:%d\n", level, i);*/
-		tale_adopt_line_by_identifier(tale, i, add);
+		tale_adopt_line_by_identifier(tale, i, s);
 
 		if(level!=max_level-1)
 			tell_me_a_nursery_tale(level+1, max_level, nf);
@@ -112,15 +116,15 @@ void tale_clean(tale_t t)
 	return;
 }
 
-void tale_adopt_line_by_identifier(tale_t t, int ident, int add)
+void tale_adopt_line_by_identifier(tale_t t, int ident, enum tale_sign s)
 {
 	int i;
-	struct coordsAndSteps cas;
+	int a;
 
-	mod_coordsAndSteps(&cas, ident);
+	a=(s==TALE_SIGN_POSITIVE?1:-1);
 
-	for(t+=cas.x_init+cas.y_init*X, i=0; i<X; t+=cas.x_step+cas.y_step*X, i++)
-		*t+=add;
+	for(i=0; i<X*X; i++)
+		t[i]+=a*ident_line[ident][i];
 
 	return;
 }
