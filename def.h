@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 	struct coordsAndSteps{
 		int x_init, y_init;
@@ -18,6 +19,7 @@
 	typedef tale_element_t* tale_t;
 
 	/* in mod_coordsAndSteps.c */
+	void mod_coordsAndSteps_init();
 	void mod_coordsAndSteps(struct coordsAndSteps *ret, int ident);
 
 	/* in will_and_die.c */
