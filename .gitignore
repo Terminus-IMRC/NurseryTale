@@ -3,3 +3,4 @@ NurseryTale
 *.c.o
 *.d
 index.db
+gmon.out

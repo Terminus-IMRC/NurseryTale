@@ -8,7 +8,7 @@ OBJS=$(SRCS:%.c=%.c.o)
 OBJS_XDEP=$(SRCS_XDEP:%.c=%.c.o)
 DEPS=$(SRCS:%.c=%.c.d)
 ALLDEP=$(MAKEFILE_LIST_SANS_DEPS)
-TOCLEAN=index.db
+TOCLEAN=index.db gmon.out
 
 all: $(PROG)
 
