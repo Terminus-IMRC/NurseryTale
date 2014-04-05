@@ -40,7 +40,7 @@ void mod_coordsAndSteps_init()
 
 void mod_coordsAndSteps(struct coordsAndSteps *ret, int ident)
 {
-	memcpy(ret, &coordsAndSteps[ident], sizeof(struct coordsAndSteps));
+	*ret=coordsAndSteps[ident];
 
 	return;
 }
