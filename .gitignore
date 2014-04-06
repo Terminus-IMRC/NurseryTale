@@ -1,6 +1,6 @@
 .X
 NurseryTale
 *.c.o
-*.d
+*.c.d
 index.db
 gmon.out
