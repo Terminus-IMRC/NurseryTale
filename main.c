@@ -4,6 +4,7 @@ int main()
 {
 	int max_level;
 
+	mod_coordsAndSteps_init();
 	tale_init();
 	searched_index_init();
 	for(max_level=0; max_level<(X*2+2)/2; max_level++)
