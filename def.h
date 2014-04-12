@@ -7,8 +7,8 @@
 #include <string.h>
 
 	struct coordsAndSteps{
-		int x_init, y_init;
-		int x_step, y_step;
+		int xy_init;
+		int xy_step;
 	};
 
 	enum nt_from{

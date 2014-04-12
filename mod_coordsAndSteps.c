@@ -8,28 +8,20 @@ void mod_coordsAndSteps_init()
 
 	for(ident=0; ident<X*2+2; ident++)
 		if(ident>=0 && ident<X){
-			coordsAndSteps[ident].x_init=ident;
-			coordsAndSteps[ident].y_init=0;
-			coordsAndSteps[ident].x_step=0;
-			coordsAndSteps[ident].y_step=1;
+			coordsAndSteps[ident].xy_init=ident;
+			coordsAndSteps[ident].xy_step=X;
 		}else if(ident<X*2){
-			coordsAndSteps[ident].x_init=0;
-			coordsAndSteps[ident].y_init=ident-X;
-			coordsAndSteps[ident].x_step=1;
-			coordsAndSteps[ident].y_step=0;
+			coordsAndSteps[ident].xy_init=(ident-X)*X;
+			coordsAndSteps[ident].xy_step=1;
 		}else
 			switch(ident){
 				case X*2:
-					coordsAndSteps[ident].x_init=0;
-					coordsAndSteps[ident].y_init=0;
-					coordsAndSteps[ident].x_step=1;
-					coordsAndSteps[ident].y_step=1;
+					coordsAndSteps[ident].xy_init=0;
+					coordsAndSteps[ident].xy_step=1+X;
 					break;
 				case X*2+1:
-					coordsAndSteps[ident].x_init=X-1;
-					coordsAndSteps[ident].y_init=0;
-					coordsAndSteps[ident].x_step=-1;
-					coordsAndSteps[ident].y_step=1;
+					coordsAndSteps[ident].xy_init=X-1;
+					coordsAndSteps[ident].xy_step=-1+X;
 					break;
 				default:
 					will_and_die("mod_coordsAndSteps_init: no way", 1);

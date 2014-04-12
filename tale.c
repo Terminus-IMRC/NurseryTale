@@ -119,7 +119,7 @@ void tale_adopt_line_by_identifier(tale_t t, int ident, int add)
 
 	mod_coordsAndSteps(&cas, ident);
 
-	for(t+=cas.x_init+cas.y_init*X, i=0; i<X; t+=cas.x_step+cas.y_step*X, i++)
+	for(t+=cas.xy_init, i=0; i<X; t+=cas.xy_step, i++)
 		*t+=add;
 
 	return;
