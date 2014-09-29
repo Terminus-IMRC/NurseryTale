@@ -25,24 +25,34 @@ void tale_finalize()
 void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 {
 	int i;
+	int nfe;
 	int add;
 	tale_t tale_def;
 	uint64_t no;
+
+	switch(nf){
+		case NT_FROM_MAIN:
+			nfe=0;
+			break;
+		case NT_FROM_ME:
+			nfe=1;
+			break;
+		default:
+			will_and_die("invalid nf value", 1);
+			break;
+	}
 
 	/*printf("nt(%d):entering nt:%s\n", level, nf==NT_FROM_MAIN?"MAIN":"ME");*/
 
 	tale_def=tale_alloc();
 	tale_cp(tale_def, tale);
 
-	switch(nf){
-		case NT_FROM_MAIN:
+	switch(nfe){
+		case 0:
 			add=1;
 			break;
-		case NT_FROM_ME:
+		case 1:
 			add=-1;
-			break;
-		default:
-			will_and_die("invalid nf value", 1);
 			break;
 	}
 
@@ -53,18 +63,15 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 		if(level!=max_level-1)
 			tell_me_a_nursery_tale(level+1, max_level, nf);
 		else
-			switch(nf){
-				case NT_FROM_MAIN:
+			switch(nfe){
+				case 0:
 					tell_me_a_nursery_tale(0, max_level, NT_FROM_ME);
 					break;
-				case NT_FROM_ME:
+				case 1:
 					no=tale_to_searched_index_no(tale);
 					if(!searched_index_if_index_searched(no))
 						tale_output(tale);
 					searched_index_set_index_searched(no);
-					break;
-				default:
-					will_and_die("someone changed nf value", 1);
 					break;
 			}
 
