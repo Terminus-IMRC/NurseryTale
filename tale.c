@@ -4,13 +4,41 @@
 #include <string.h>
 
 static tale_t tale;
+static tale_t tale_def_0dim, *tale_def_1dim, **tale_def;
 static FILE *tale_output_fp;
 
-void tale_init()
+void tale_init(int max_level)
 {
+	int i;
+	char errmsg[0xffff];
+
 	tale=tale_alloc();
 	tale_clean(tale);
 	tale_output_fp=stdout;
+
+	tale_def_0dim=(tale_t)malloc(2*max_level*(X*X)*sizeof(tale_element_t));
+	if(!tale_def_0dim){
+		sprintf(errmsg, "tale_init: malloc: %s", strerror(errno));
+		will_and_die(errmsg, 1);
+	}
+
+	tale_def_1dim=(tale_t*)malloc(2*max_level*sizeof(tale_t));
+	if(!tale_def_1dim){
+		sprintf(errmsg, "tale_init: malloc: %s", strerror(errno));
+		will_and_die(errmsg, 1);
+	}
+
+	tale_def=(tale_t**)malloc(2*sizeof(tale_t*));
+	if(!tale_def){
+		sprintf(errmsg, "tale_init: malloc: %s", strerror(errno));
+		will_and_die(errmsg, 1);
+	}
+
+	for(i=0; i<2*max_level; i++)
+		tale_def_1dim[i]=tale_def_0dim+i*(X*X);
+
+	for(i=0; i<2; i++)
+		tale_def[i]=tale_def_1dim+i*max_level;
 
 	return;
 }
@@ -18,6 +46,10 @@ void tale_init()
 void tale_finalize()
 {
 	tale_destroy(tale);
+
+	free(tale_def);
+	free(tale_def_1dim);
+	free(tale_def_0dim);
 
 	return;
 }
@@ -27,7 +59,6 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 	int i;
 	int nfe;
 	int add;
-	tale_t tale_def;
 	uint64_t no;
 
 	switch(nf){
@@ -44,8 +75,7 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 
 	/*printf("nt(%d):entering nt:%s\n", level, nf==NT_FROM_MAIN?"MAIN":"ME");*/
 
-	tale_def=tale_alloc();
-	tale_cp(tale_def, tale);
+	tale_cp(tale_def[nfe][level], tale);
 
 	switch(nfe){
 		case 0:
@@ -76,10 +106,8 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 			}
 
 		/* TODO: use tale_disadopt_line_by_identifier() for speed-up */
-		tale_cp(tale, tale_def);
+		tale_cp(tale, tale_def[nfe][level]);
 	}
-
-	tale_destroy(tale_def);
 
 	return;
 }
