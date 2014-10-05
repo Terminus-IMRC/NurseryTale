@@ -105,7 +105,6 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 					break;
 			}
 
-		/* TODO: use tale_disadopt_line_by_identifier() for speed-up */
 		tale_cp(tale, tale_def[nfe][level]);
 	}
 
