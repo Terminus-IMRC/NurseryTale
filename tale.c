@@ -5,6 +5,7 @@
 
 static tale_t tale;
 static tale_t tale_def_0dim, *tale_def_1dim, **tale_def;
+static _Bool ident_used[X*2+2];
 static FILE *tale_output_fp;
 
 void tale_init(int max_level)
@@ -40,6 +41,9 @@ void tale_init(int max_level)
 	for(i=0; i<2; i++)
 		tale_def[i]=tale_def_1dim+i*max_level;
 
+	for(i=0; i<X*2+2; i++)
+		ident_used[i]=0;
+
 	return;
 }
 
@@ -59,6 +63,7 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 	int i;
 	int nfe;
 	int add;
+	_Bool ident_used_already_used=0;
 	uint64_t no;
 
 	switch(nf){
@@ -87,6 +92,15 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 	}
 
 	for(i=0; i<X*2+2; i++){
+		if(nfe==0){
+			if(ident_used[i])
+				ident_used_already_used=!0;
+			ident_used[i]=!0;
+		}else{
+			if(ident_used[i])
+				continue;
+		}
+
 		/*printf("nt(%d):adopting i:%d\n", level, i);*/
 		tale_adopt_line_by_identifier(tale, i, add);
 
@@ -104,6 +118,9 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 					searched_index_set_index_searched(no);
 					break;
 			}
+
+		if((nfe==0)&&(!ident_used_already_used))
+			ident_used[i]=0;
 
 		tale_cp(tale, tale_def[nfe][level]);
 	}
