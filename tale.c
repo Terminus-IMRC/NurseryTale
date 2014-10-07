@@ -63,7 +63,7 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 	int i;
 	int nfe;
 	int add;
-	_Bool ident_used_already_used=0;
+	_Bool ident_used_already_used;
 	uint64_t no;
 
 	switch(nf){
@@ -93,6 +93,7 @@ void tell_me_a_nursery_tale(int level, int max_level, enum nt_from nf)
 
 	for(i=0; i<X*2+2; i++){
 		if(nfe==0){
+			ident_used_already_used=0;
 			if(ident_used[i])
 				ident_used_already_used=!0;
 			ident_used[i]=!0;
