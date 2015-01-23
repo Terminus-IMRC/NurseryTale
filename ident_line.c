@@ -24,6 +24,6 @@ void ident_line_finalize()
 
 	for(i=0; i<X*2+2; i++)
 		tale_destroy(ident_line[i]);
-	
+
 	return;
 }
